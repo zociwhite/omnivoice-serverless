@@ -42,4 +42,7 @@ jobs:
             hf_token=${{ secrets.HF_TOKEN }}
 
       - name: Smoke test
-        run: docker run --rm z0ci/omnivoice-serverless:latest python -c 'import torch; print("torch:", torch.__version__); import whisperx; print("whisperx: ok"); import pyannote.audio; print("pyannote: ok"); print("SMOKE OK")
+        run: >
+          docker run --rm z0ci/omnivoice-serverless:latest
+          python -c "import torch; print('torch:'+torch.__version__); import whisperx; import pyannote.audio; print('smoke ok')"
+
