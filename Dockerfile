@@ -19,6 +19,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     && rm -rf /var/lib/apt/lists/*
 
+# Upgrade Python to 3.11 for OmniVoice compatibility
+RUN conda install -y python=3.11 && conda clean -afy
+
 # Install uv for fast pip resolution
 RUN pip install --no-cache-dir uv
 
