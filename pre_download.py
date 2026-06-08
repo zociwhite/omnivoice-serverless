@@ -1,6 +1,13 @@
 """Pre-download all models at Docker build time."""
 import os, torch
 
+# PyTorch 2.6+ weights_only=True breaks pyannote/whisperx model loading
+_orig_load = torch.load
+def _safe_load(f, *a, **kw):
+    kw.setdefault("weights_only", False)
+    return _orig_load(f, *a, **kw)
+torch.load = _safe_load
+
 # 1. OmniVoice TTS model
 print("Downloading OmniVoice model...")
 from omnivoice import OmniVoice
