@@ -7,8 +7,6 @@ on:
     paths:
       - 'Dockerfile'
       - 'runpod_handler.py'
-      - 'pre_download.py'
-      - 'requirements.txt'
       - '.github/workflows/build.yml'
 
 jobs:
@@ -38,11 +36,8 @@ jobs:
             z0ci/omnivoice-serverless:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          secrets: |
-            hf_token=${{ secrets.HF_TOKEN }}
 
       - name: Smoke test
         run: >
           docker run --rm z0ci/omnivoice-serverless:latest
-          python -c "import torch; print('torch:'+torch.__version__); from omnivoice import OmniVoice; import whisperx; import pyannote.audio; print('smoke ok')"
-
+          python -c "import torch; print('torch:'+torch.__version__); import whisperx; from omnivoice import OmniVoice; print('smoke ok')"
