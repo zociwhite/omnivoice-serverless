@@ -23,8 +23,7 @@ hf_token = os.environ.get("HF_TOKEN", "")
 if hf_token:
     print("Downloading pyannote diarization...")
     from pyannote.audio import Pipeline
-    pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1",
-                                        use_auth_token=hf_token)
+    pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1")
     pipeline.to(torch.device(device))
     del pipeline
     print("pyannote model cached.")
