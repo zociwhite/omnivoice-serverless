@@ -1,7 +1,7 @@
 # ==========================================
 # OmniVoice RunPod Serverless - STT & TTS
 # ==========================================
-FROM pytorch/pytorch:2.8.0-cuda12.8-cudnn9-runtime
+FROM pytorch/pytorch:2.1.2-cuda12.1-cudnn8-runtime
 
 WORKDIR /app
 
@@ -9,7 +9,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HF_HOME=/app/hf_cache
-ENV TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -33,6 +32,9 @@ RUN uv pip install --system --no-cache -e /app/repo
 RUN uv pip install --system --no-cache \
     runpod \
     whisperx
+
+# Pin huggingface_hub for pyannote compatibility (use_auth_token removed in >=0.26)
+RUN uv pip install --system --no-cache "huggingface_hub<0.26"
 
 # Pre-download all models via script
 COPY pre_download.py /app/pre_download.py
