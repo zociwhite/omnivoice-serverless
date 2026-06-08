@@ -34,8 +34,6 @@ RUN uv pip install --system --no-cache \
     runpod \
     whisperx
 
-# Pin huggingface_hub for pyannote compatibility
-RUN uv pip install --system --no-cache "huggingface_hub<0.26"
 
 # Clean up repo source (models download at runtime for reliable builds)
 RUN rm -rf /app/repo
