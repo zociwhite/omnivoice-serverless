@@ -34,9 +34,13 @@ RUN uv pip install --system --no-cache \
     runpod \
     whisperx
 
+# Pre-download WhisperX model at build time (~3GB, slow cold start otherwise)
+# OmniVoice and pyannote download at runtime (acceptable cold start)
+COPY pre_download.py /app/pre_download.py
+RUN python /app/pre_download.py
 
-# Clean up repo source (models download at runtime for reliable builds)
-RUN rm -rf /app/repo
+# Clean up repo source and pre-download script
+RUN rm -rf /app/repo /app/pre_download.py
 
 # Copy the RunPod handler
 COPY runpod_handler.py /app/runpod_handler.py
