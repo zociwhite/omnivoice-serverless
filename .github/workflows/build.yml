@@ -1,11 +1,13 @@
 name: Build and Push Docker Image
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
       - 'Dockerfile'
       - 'runpod_handler.py'
+      - 'pre_download.py'
       - '.github/workflows/build.yml'
 
 jobs:
