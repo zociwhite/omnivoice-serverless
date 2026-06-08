@@ -27,21 +27,15 @@ RUN pip install --no-cache-dir uv
 # Clone OmniVoice Studio
 RUN git clone --depth 1 https://github.com/debpalash/OmniVoice-Studio.git /app/repo
 
-# Pin huggingface_hub BEFORE transformers (avoid use_auth_token removal)
-RUN uv pip install --system --no-cache "huggingface_hub<0.26"
-
-# Install omnivoice
+# Install the omnivoice package
 RUN uv pip install --system --no-cache -e /app/repo
-
-# Re-pin huggingface_hub (transformers may upgrade it)
-RUN uv pip install --system --no-cache "huggingface_hub<0.26"
 
 # Install RunPod SDK + WhisperX
 RUN uv pip install --system --no-cache \
     runpod \
     whisperx
 
-# Pre-download all models
+# Pre-download models (pyannote skipped at build time — downloaded at runtime)
 COPY pre_download.py /app/pre_download.py
 
 RUN --mount=type=secret,id=hf_token \

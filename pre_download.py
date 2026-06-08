@@ -18,14 +18,7 @@ model = whisperx.load_model("large-v3", device=device,
 del model
 print("WhisperX model cached.")
 
-# 3. pyannote diarization (requires HF_TOKEN)
-hf_token = os.environ.get("HF_TOKEN", "")
-if hf_token:
-    print("Downloading pyannote diarization...")
-    from pyannote.audio import Pipeline
-    pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1")
-    pipeline.to(torch.device(device))
-    del pipeline
-    print("pyannote model cached.")
-else:
-    print("No HF_TOKEN — skipping pyannote pre-download.")
+# 3. pyannote diarization is skipped at build time because it uses
+# use_auth_token (deprecated in huggingface_hub>=0.24). It will be
+# downloaded at runtime via HF_TOKEN env var when diarization is requested.
+print("pyannote diarization will be downloaded at runtime (HF_TOKEN required).")
