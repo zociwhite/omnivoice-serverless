@@ -1,7 +1,7 @@
 # ==========================================
 # OmniVoice RunPod Serverless — STT & TTS
 # ==========================================
-FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-runtime
+FROM pytorch/pytorch:2.5.1-cuda12.1-cudnn9-runtime
 
 WORKDIR /app
 
@@ -9,7 +9,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HF_HOME=/app/hf_cache
-ENV TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -27,7 +26,7 @@ RUN pip install --no-cache-dir uv
 RUN git clone --depth 1 https://github.com/debpalash/OmniVoice-Studio.git /app/repo
 
 # Pin huggingface_hub BEFORE installing anything that depends on it
-# (conda base has an old version without is_offline_mode)
+# (conda base has old version without is_offline_mode needed by transformers)
 RUN uv pip install --system --no-cache "huggingface_hub<0.26"
 
 # Install the omnivoice package (no frontend/extras)
