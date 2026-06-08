@@ -9,6 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HF_HOME=/app/hf_cache
+ENV TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
