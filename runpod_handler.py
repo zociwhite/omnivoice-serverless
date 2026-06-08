@@ -41,7 +41,7 @@ def _load_whisperx():
     compute = "float16" if device == "cuda" else "int8"
 
     logger.info("Loading WhisperX large-v3 on %s (%s)", device, compute)
-    model = whisperx.load_model("large-v3", device=device, compute_type=compute)
+    model = whisperx.load_model("large-v3-turbo", device=device, compute_type=compute)
 
     # Lazy-load diarization model (pyannote)
     diarize = None

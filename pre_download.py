@@ -12,7 +12,7 @@ compute = "float16" if device == "cuda" else "int8"
 # -------------------------------------------------------------------
 print(f"[1/4] Loading WhisperX large-v3 on {device} ({compute})...")
 import whisperx
-model = whisperx.load_model("large-v3", device=device, compute_type=compute)
+model = whisperx.load_model("large-v3-turbo", device=device, compute_type=compute)
 print("  OK")
 
 # -------------------------------------------------------------------
