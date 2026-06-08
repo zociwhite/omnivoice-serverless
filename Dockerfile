@@ -26,6 +26,10 @@ RUN pip install --no-cache-dir uv
 # Clone OmniVoice Studio (for the omnivoice Python package + model code)
 RUN git clone --depth 1 https://github.com/debpalash/OmniVoice-Studio.git /app/repo
 
+# Pin huggingface_hub BEFORE installing anything that depends on it
+# (conda base has an old version without is_offline_mode)
+RUN uv pip install --system --no-cache "huggingface_hub<0.26"
+
 # Install the omnivoice package (no frontend/extras)
 RUN uv pip install --system --no-cache -e /app/repo
 
@@ -33,9 +37,6 @@ RUN uv pip install --system --no-cache -e /app/repo
 RUN uv pip install --system --no-cache \
     runpod \
     whisperx
-
-# Pin huggingface_hub for pyannote compatibility (use_auth_token removed in >=0.26)
-RUN uv pip install --system --no-cache "huggingface_hub<0.26"
 
 # Pre-download all models via script
 COPY pre_download.py /app/pre_download.py
