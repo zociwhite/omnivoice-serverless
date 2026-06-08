@@ -11,6 +11,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV HF_HOME=/app/hf_cache
 ENV TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1
 
+ARG HF_TOKEN
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -34,10 +36,9 @@ RUN uv pip install --system --no-cache \
     runpod \
     whisperx
 
-# Pre-download WhisperX model at build time (~3GB, slow cold start otherwise)
-# OmniVoice and pyannote download at runtime (acceptable cold start)
+# Pre-download ALL models at build time (WhisperX + alignment + pyannote)
 COPY pre_download.py /app/pre_download.py
-RUN python /app/pre_download.py
+RUN HF_TOKEN=$HF_TOKEN python /app/pre_download.py
 
 # Clean up repo source and pre-download script
 RUN rm -rf /app/repo /app/pre_download.py

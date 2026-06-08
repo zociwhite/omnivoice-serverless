@@ -5,9 +5,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'pre_download.py'
       - 'Dockerfile'
       - 'runpod_handler.py'
+      - 'pre_download.py'
       - '.github/workflows/build.yml'
 
 jobs:
@@ -37,6 +37,8 @@ jobs:
             z0ci/omnivoice-serverless:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            HF_TOKEN=${{ secrets.HF_TOKEN }}
 
       - name: Smoke test
         run: >
