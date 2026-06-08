@@ -28,7 +28,7 @@ RUN pip install --no-cache-dir uv
 RUN git clone --depth 1 https://github.com/debpalash/OmniVoice-Studio.git /app/repo
 
 # Install the omnivoice package
-RUN uv pip install --system --no-cache -e /app/repo
+RUN uv pip install --system --no-cache /app/repo
 
 # Install RunPod SDK + WhisperX
 RUN uv pip install --system --no-cache \
